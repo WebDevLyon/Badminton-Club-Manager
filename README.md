@@ -2,8 +2,7 @@
 
 ## Build Setup
 
-# you need this API or use your API
-[this repos](https://github.com/WebDevLyon/AirtableToHtml)
+### you need this API or use your API : [this repos](https://github.com/WebDevLyon/AirtableToHtml)
 
 ```bash
 # install dependencies
