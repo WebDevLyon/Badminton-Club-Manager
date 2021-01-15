@@ -48,6 +48,7 @@
             </tbody>
           </template>
         </v-simple-table>
+        <p class="legende">Légende : <span class="text-decoration-line-through">date barrée</span> => Envoi effectué  /  <span class="red--text">date rouge</span> => envoi en retard</p>
       </div>
       <div>
         Adresse : <br>
@@ -188,5 +189,9 @@ export default {
   & div{
     margin : 0 0 1rem 0;
   }
+}
+.legende{
+  margin: 2rem 0 0 0;
+  font-weight: bold;
 }
 </style>
