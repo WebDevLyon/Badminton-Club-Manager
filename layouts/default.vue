@@ -48,7 +48,7 @@
     </v-app-bar>
 
     <v-main>
-      <Nuxt />
+      <Nuxt keep-alive />
     </v-main>
   </v-app>
 </template>
@@ -59,11 +59,14 @@ export default {
     drawer: null,
     items: [
       { title: 'Dashboard', icon: 'mdi-view-dashboard', to: '/' },
-      { title: 'Tournois', icon: 'mdi-medal', to: '/Tournois' },
-      { title: 'About', icon: 'mdi-help-box', to: '/' }
+      { title: 'Tournois', icon: 'mdi-medal', to: '/tournois' },
+      { title: 'About', icon: 'mdi-help-box', to: '/about' }
     ],
     right: null
-  })
+  }),
+  mounted () {
+    this.$store.dispatch('setEvents')
+  }
 }
 </script>
 <style>

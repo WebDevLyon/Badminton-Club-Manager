@@ -2,7 +2,7 @@
   <v-container>
     <v-select
       :items="listTournois.Retrieved"
-      item-text="Name"
+      item-text="name"
       item-value="id"
       label="Sélectionner le tournoi"
       @change="checkTournoi"
@@ -15,8 +15,9 @@
 const axios = require('axios').default
 
 export default {
+  middleware: ['auth'],
   asyncData () {
-    return axios.get('http://localhost:8000/allrecord', {
+    return axios.get('http://badapi.lani9094.odns.fr/allrecord', {
       params:
     {
       base: 'Tournois'

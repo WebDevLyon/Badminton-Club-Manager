@@ -38,13 +38,34 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    // https://auth.nuxtjs.org/guide/setup
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: { baseURL: 'http://localhost:8000/' },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
+  },
+
+  router: {
+    // middleware: ['auth']
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        /* token: {
+          property: 'token'
+        }, */
+        endpoints: {
+          login: { url: '/login', method: 'post', propertyName: 'token' },
+          logout: false,
+          user: { url: '/me', method: 'get', propertyName: 'user' }
+        }
+      }
+    }
   }
 }
