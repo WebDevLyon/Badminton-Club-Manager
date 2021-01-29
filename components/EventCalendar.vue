@@ -42,7 +42,46 @@
       event-overlap-mode="stack"
       event-overlap-threshold="30"
       :weekdays="weekday"
+      @click:event="showEvent"
     />
+    <v-menu
+      v-model="selectedOpen"
+      :close-on-content-click="false"
+      :activator="selectedElement"
+      offset-x
+    >
+      <v-card
+        color="grey lighten-4"
+        min-width="350px"
+        flat
+      >
+        <v-toolbar
+          :color="selectedEvent.color"
+          dark
+        >
+          <v-btn icon>
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+          <v-toolbar-title v-html="selectedEvent.name" />
+          <v-spacer />
+          <v-btn icon>
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <v-card-text>
+          <span v-html="selectedEvent.start" /> <span v-if="selectedEvent.end"> au <span v-html="selectedEvent.end" /></span>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+            text
+            color="secondary"
+            @click="selectedOpen = false"
+          >
+            Cancel
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-menu>
   </div>
 </template>
 
@@ -54,7 +93,9 @@ export default {
       value: '',
       type: 'month',
       weekday: [1, 2, 3, 4, 5, 6, 0],
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1']
+      selectedEvent: {},
+      selectedElement: null,
+      selectedOpen: false
     }
   },
   methods: {
@@ -66,6 +107,26 @@ export default {
     },
     next () {
       this.$refs.calendar.next()
+    },
+    showEvent ({ nativeEvent, event }) {
+      console.log('nativeEvent', nativeEvent)
+      console.log('Event', event)
+      const open = () => {
+        this.selectedEvent = event
+        this.selectedElement = nativeEvent.target
+        setTimeout(() => {
+          this.selectedOpen = true
+        }, 10)
+      }
+
+      if (this.selectedOpen) {
+        this.selectedOpen = false
+        setTimeout(open, 10)
+      } else {
+        open()
+      }
+
+      nativeEvent.stopPropagation()
     }
   }
 }

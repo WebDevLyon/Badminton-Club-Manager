@@ -17,12 +17,15 @@ const axios = require('axios').default
 export default {
   middleware: ['auth'],
   asyncData () {
-    return axios.get('http://badapi.lani9094.odns.fr/allrecord', {
-      params:
+    return axios.get(
+      // 'http://badapi.lani9094.odns.fr/allrecord',
+      'http://localhost:8000/allrecord',
+      {
+        params:
     {
       base: 'Tournois'
     }
-    }).then((response) => {
+      }).then((response) => {
       const listTournois = response.data
       return { listTournois }
     })
