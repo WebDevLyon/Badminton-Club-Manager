@@ -60,16 +60,38 @@
           dark
         >
           <v-btn icon>
-            <v-icon>mdi-pencil</v-icon>
+            <NuxtLink class="text-decoration-none white--text" to="/tournois">
+              <v-icon>
+                mdi-pencil
+              </v-icon>
+            </NuxtLink>
           </v-btn>
           <v-toolbar-title v-html="selectedEvent.name" />
           <v-spacer />
-          <v-btn icon>
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
         </v-toolbar>
         <v-card-text>
-          <span v-html="selectedEvent.start" /> <span v-if="selectedEvent.end"> au <span v-html="selectedEvent.end" /></span>
+          <div class="mb-3">
+            <span v-if="!selectedEvent.envoi">Du </span><span v-if="selectedEvent.start">{{ selectedEvent.start }}</span><span v-if="selectedEvent.end"> au {{ selectedEvent.end }}</span>
+          </div>
+          <div v-if="selectedEvent.envoi">
+            <p>
+              Lien Badiste : <a v-if="selectedEvent.linkBadiste" :href="selectedEvent.linkBadiste" target="_blank">{{ selectedEvent.linkBadiste }}</a><strong v-else class="red--text">Non communiqué</strong>
+            </p>
+            <p>
+              Etablir le chèque à l'ordre de : <strong v-if="selectedEvent.order">{{ selectedEvent.order }}</strong><strong v-else class="red--text">Non communiqué</strong>
+            </p>
+            <p>
+              Envoyer l'inscription à : <strong v-if="selectedEvent.contact">{{ selectedEvent.contact }}</strong><strong v-else class="red--text">Non communiqué</strong>
+            </p>
+          </div>
+          <div v-else>
+            <p>
+              Lien Badiste : <a v-if="selectedEvent.linkBadiste" :href="selectedEvent.linkBadiste" target="_blank">{{ selectedEvent.linkBadiste }}</a><strong v-else class="red--text">Non communiqué</strong>
+            </p>
+            <p>
+              Adresse du tournoi : <a v-if="selectedEvent.adresse" :href="'https://www.google.com/maps/dir/'+selectedEvent.adresse">{{ selectedEvent.adresse }}</a><strong v-else class="red--text">Non communiqué</strong>
+            </p>
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-btn
@@ -109,8 +131,6 @@ export default {
       this.$refs.calendar.next()
     },
     showEvent ({ nativeEvent, event }) {
-      console.log('nativeEvent', nativeEvent)
-      console.log('Event', event)
       const open = () => {
         this.selectedEvent = event
         this.selectedElement = nativeEvent.target

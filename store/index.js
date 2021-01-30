@@ -20,26 +20,37 @@ export const mutations = {
     events.forEach((event) => {
       if (event.Envoi_1 && !event.Envoi_1_Fait) {
         const envoi = {
+          envoi: true,
           name: `Envoi 1 : ${event.name}`,
           start: event.Envoi_2 ? event.Envoi_1 : '2021-01-01',
-          color: 'green'
+          color: 'green',
+          linkBadiste: event.linkBadiste,
+          order: event.order,
+          contact: ''
         }
         state.events.push(envoi)
       }
       if (event.Envoi_2 && !event.Envoi_2_Fait) {
         const envoi = {
+          envoi: true,
           name: `Envoi 2 : ${event.name}`,
           start: event.Envoi_2 ? event.Envoi_2 : '2021-01-01',
-          color: '#00796B'
-
+          color: '#00796B',
+          linkBadiste: event.linkBadiste,
+          order: event.order,
+          contact: ''
         }
         state.events.push(envoi)
       }
       if (event.Envoi_3 && !event.Envoi_3_Fait) {
         const envoi = {
+          envoi: true,
           name: `Envoi 3 : ${event.name}`,
           start: event.Envoi_3 ? event.Envoi_3 : '2021-01-01',
-          color: 'orange'
+          color: 'orange',
+          linkBadiste: event.linkBadiste,
+          order: event.order,
+          contact: ''
         }
         state.events.push(envoi)
       }
