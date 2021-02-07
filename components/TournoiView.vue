@@ -2,6 +2,22 @@
   <v-card>
     <v-card-title>
       {{ tournoi.Nom }}
+      <v-spacer />
+      <v-dialog
+        v-if="tournoi.Nom"
+        v-model="dialog"
+        width="1500"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            v-bind="attrs"
+            v-on="on"
+          >
+            mdi-pencil
+          </v-icon>
+        </template>
+        <EditTournoiCard @dialog="test" />
+      </v-dialog>
     </v-card-title>
     <v-card-subtitle>
       Du {{ tournoi.Date_debut }} au {{ tournoi.Date_Fin }}
@@ -48,7 +64,9 @@
             </tbody>
           </template>
         </v-simple-table>
-        <p class="legende">Légende : <span class="text-decoration-line-through">date barrée</span> => Envoi effectué  /  <span class="red--text">date rouge</span> => envoi en retard</p>
+        <p class="legende">
+          Légende : <span class="text-decoration-line-through">date barrée</span> => Envoi effectué  /  <span class="red--text">date rouge</span> => envoi en retard
+        </p>
       </div>
       <div>
         Adresse : <br>
@@ -59,7 +77,7 @@
       <v-btn @click="genHTML">
         Générer HTML/CSS
       </v-btn>
-      <v-btn v-if="this.HTMLgenere" @click="copyClipboard">
+      <v-btn v-if="HTMLgenere" @click="copyClipboard">
         Copier le code
       </v-btn>
     </v-card-actions>
@@ -74,10 +92,15 @@ export default {
   },
   data () {
     return {
-      HTMLgenere: ''
+      HTMLgenere: '',
+      dialog: false
     }
   },
   methods: {
+    test () {
+      this.dialog = false
+    },
+    // !A refactorer
     genHTML () {
       // Controle qu'au moins un tournois a été sélectionné
       if (this.$store.state.tournoiSelected.Nom === 'Nom du tournoi') {
