@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const state = () => ({
   idTournoi: 'test',
-  tournoiSelected: { Nom: 'Nom du tournoi' },
+  tournoiSelected: { },
   events: []
 })
 
