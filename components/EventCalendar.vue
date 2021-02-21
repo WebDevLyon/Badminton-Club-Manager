@@ -38,7 +38,7 @@
       ref="calendar"
       v-model="focus"
       :type="type"
-      :events="this.$store.state.events"
+      :events="this.$store.state.eventsAndSending"
       event-overlap-mode="stack"
       event-overlap-threshold="30"
       :weekdays="weekday"
@@ -59,8 +59,8 @@
           :color="selectedEvent.color"
           dark
         >
-          <v-btn icon>
-            <NuxtLink class="text-decoration-none white--text" to="/tournois">
+          <v-btn v-if="!selectedEvent.envoi" icon>
+            <NuxtLink class="text-decoration-none white--text" :to="{name:'Tournois', params:{id:selectedEvent.id}}">
               <v-icon>
                 mdi-pencil
               </v-icon>
@@ -100,6 +100,15 @@
             @click="selectedOpen = false"
           >
             Cancel
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            v-if="selectedEvent.envoi"
+            text
+            color="green"
+            @click="sendDone"
+          >
+            FAIT
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -147,6 +156,9 @@ export default {
       }
 
       nativeEvent.stopPropagation()
+    },
+    sendDone () {
+      console.log('done')
     }
   }
 }

@@ -16,7 +16,7 @@
             mdi-pencil
           </v-icon>
         </template>
-        <EditTournoiCard @dialog="test" />
+        <EditTournoiCard :tournoi="tournoi" @dialog="test" />
       </v-dialog>
     </v-card-title>
     <v-card-subtitle>
