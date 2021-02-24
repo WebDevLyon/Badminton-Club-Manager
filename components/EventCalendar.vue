@@ -117,6 +117,8 @@
 </template>
 
 <script>
+const axios = require('axios').default
+
 export default {
   data () {
     return {
@@ -130,6 +132,29 @@ export default {
     }
   },
   methods: {
+    sendDone () {
+      // Création de la propriété de l'objet à envoyer
+      let proprieteObject = ''
+      const decomposition = this.selectedEvent.name.split(' ')
+      for (let i = 0; i < 2; i++) {
+        proprieteObject += decomposition[i] + '_'
+      }
+      proprieteObject += 'Fait'
+      const dataSend = {
+        id: this.selectedEvent.id,
+        data: {
+        // dataSend.data.[e.getAttribute('id')]
+          [proprieteObject]: true
+        }
+      }
+      console.log(dataSend)
+      axios.put('http://localhost:8000/tournoi', dataSend)
+        .then((response) => {
+          console.log(response)
+        })
+        .catch(err => console.log(err))
+      document.location.reload()
+    },
     setToday () {
       this.focus = ''
     },
@@ -156,9 +181,6 @@ export default {
       }
 
       nativeEvent.stopPropagation()
-    },
-    sendDone () {
-      console.log('done')
     }
   }
 }
