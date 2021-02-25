@@ -60,6 +60,7 @@ export default {
     items: [
       { title: 'Dashboard', icon: 'mdi-view-dashboard', to: '/' },
       { title: 'Tournois', icon: 'mdi-medal', to: '/tournois' },
+      { title: 'Joueurs', icon: 'mdi-account-group', to: '/joueurs' },
       { title: 'About', icon: 'mdi-help-box', to: '/about' }
     ],
     right: null

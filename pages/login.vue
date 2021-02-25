@@ -32,7 +32,9 @@ export default {
   methods: {
     userLogin () {
       this.$auth.loginWith('local', { data: this.login })
-        .then(resp => console.log(resp))
+        .then((resp) => {
+          // eslint-disable-next-line
+          console.log(resp)})
     }
   }
 }

@@ -147,12 +147,16 @@ export default {
           [proprieteObject]: true
         }
       }
+      // eslint-disable-next-line
       console.log(dataSend)
       axios.put('http://localhost:8000/tournoi', dataSend)
         .then((response) => {
+          // eslint-disable-next-line
           console.log(response)
         })
-        .catch(err => console.log(err))
+        .catch(err =>
+        // eslint-disable-next-line
+        console.log(err))
       document.location.reload()
     },
     setToday () {

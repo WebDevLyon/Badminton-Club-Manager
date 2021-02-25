@@ -81,7 +81,9 @@
         Copier le code
       </v-btn>
     </v-card-actions>
-    <Result><div v-html="HTMLgenere" /></Result>
+    <Result>
+      <div v-html="HTMLgenere" />
+    </Result>
   </v-card>
 </template>
 
