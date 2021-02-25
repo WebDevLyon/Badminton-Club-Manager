@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-select
-      :items="listTournois.Retrieved"
+      :items="this.$store.state.events"
       item-text="name"
       item-value="id"
       label="Sélectionner le tournoi"
@@ -12,28 +12,23 @@
 </template>
 
 <script>
-const axios = require('axios').default
-
 export default {
   middleware: ['auth'],
-  asyncData () {
-    return axios.get(
-      // 'http://badapi.lani9094.odns.fr/allrecord',
-      'http://localhost:8000/allrecord',
-      {
-        params:
-    {
-      base: 'Tournois'
-    }
-      }).then((response) => {
-      const listTournois = response.data
-      return { listTournois }
-    })
+  props: {
+    // defaultSelected: { type: Object, default () { return {} } }
   },
   data () {
     return {
       HTMLgenere: ''
     }
+  },
+  beforeMount () {
+    this.$store.commit('checkTournoi', this.$route.params.id)
+    this.$store.dispatch('infoTournoi', this.$route.params.id)
+  },
+  beforeRouteLeave (to, from, next) {
+    this.$destroy()
+    next()
   },
   methods: {
     checkTournoi (id) {
@@ -42,6 +37,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style>

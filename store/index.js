@@ -3,7 +3,8 @@ import axios from 'axios'
 export const state = () => ({
   idTournoi: 'test',
   tournoiSelected: { },
-  events: []
+  events: [],
+  eventsAndSending: []
 })
 
 export const mutations = {
@@ -16,22 +17,25 @@ export const mutations = {
   setEvents (state, events) {
     state.events = events
   },
-  AddEnvois (state, events) {
-    events.forEach((event) => {
-      if (event.Envoi_1 && !event.Envoi_1_Fait) {
+  AddEnvois (state) {
+    state.events.forEach((event) => {
+      if (event.Envoi_1 /* && !event.Envoi_1_Fait */) {
         const envoi = {
+          id: event.id,
           envoi: true,
           name: `Envoi 1 : ${event.name}`,
-          start: event.Envoi_2 ? event.Envoi_1 : '2021-01-01',
+          start: event.Envoi_1 ? event.Envoi_1 : '2021-01-01',
           color: 'green',
           linkBadiste: event.linkBadiste,
           order: event.order,
-          contact: ''
+          contact: '',
+          fait: event.Envoi_1_Fait
         }
-        state.events.push(envoi)
+        state.eventsAndSending.push(envoi)
       }
       if (event.Envoi_2 && !event.Envoi_2_Fait) {
         const envoi = {
+          id: event.id,
           envoi: true,
           name: `Envoi 2 : ${event.name}`,
           start: event.Envoi_2 ? event.Envoi_2 : '2021-01-01',
@@ -40,10 +44,11 @@ export const mutations = {
           order: event.order,
           contact: ''
         }
-        state.events.push(envoi)
+        state.eventsAndSending.push(envoi)
       }
       if (event.Envoi_3 && !event.Envoi_3_Fait) {
         const envoi = {
+          id: event.id,
           envoi: true,
           name: `Envoi 3 : ${event.name}`,
           start: event.Envoi_3 ? event.Envoi_3 : '2021-01-01',
@@ -52,8 +57,11 @@ export const mutations = {
           order: event.order,
           contact: ''
         }
-        state.events.push(envoi)
+        state.eventsAndSending.push(envoi)
       }
+    })
+    state.events.forEach((event) => {
+      state.eventsAndSending.push(event)
     })
   }
 }
@@ -82,7 +90,7 @@ export const actions = {
     }
       }).then((response) => {
       context.commit('setEvents', response.data.Retrieved)
-      context.commit('AddEnvois', response.data.Retrieved)
+      context.commit('AddEnvois')
     })
   }
 }

@@ -38,7 +38,7 @@
       ref="calendar"
       v-model="focus"
       :type="type"
-      :events="this.$store.state.events"
+      :events="this.$store.state.eventsAndSending"
       event-overlap-mode="stack"
       event-overlap-threshold="30"
       :weekdays="weekday"
@@ -59,8 +59,8 @@
           :color="selectedEvent.color"
           dark
         >
-          <v-btn icon>
-            <NuxtLink class="text-decoration-none white--text" to="/tournois">
+          <v-btn v-if="!selectedEvent.envoi" icon>
+            <NuxtLink class="text-decoration-none white--text" :to="{name:'Tournois', params:{id:selectedEvent.id}}">
               <v-icon>
                 mdi-pencil
               </v-icon>
@@ -101,6 +101,15 @@
           >
             Cancel
           </v-btn>
+          <v-spacer />
+          <v-btn
+            v-if="selectedEvent.envoi"
+            text
+            color="green"
+            @click="sendDone"
+          >
+            FAIT
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>
@@ -108,6 +117,8 @@
 </template>
 
 <script>
+const axios = require('axios').default
+
 export default {
   data () {
     return {
@@ -121,6 +132,29 @@ export default {
     }
   },
   methods: {
+    sendDone () {
+      // Création de la propriété de l'objet à envoyer
+      let proprieteObject = ''
+      const decomposition = this.selectedEvent.name.split(' ')
+      for (let i = 0; i < 2; i++) {
+        proprieteObject += decomposition[i] + '_'
+      }
+      proprieteObject += 'Fait'
+      const dataSend = {
+        id: this.selectedEvent.id,
+        data: {
+        // dataSend.data.[e.getAttribute('id')]
+          [proprieteObject]: true
+        }
+      }
+      console.log(dataSend)
+      axios.put('http://localhost:8000/tournoi', dataSend)
+        .then((response) => {
+          console.log(response)
+        })
+        .catch(err => console.log(err))
+      document.location.reload()
+    },
     setToday () {
       this.focus = ''
     },
